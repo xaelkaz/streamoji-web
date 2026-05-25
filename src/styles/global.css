@@ -1,0 +1,157 @@
+@import "tailwindcss";
+
+/* ───────── Design tokens (Tailwind v4 @theme) ─────────
+   These become utility classes automatically:
+     --color-acid       → bg-acid, text-acid, ring-acid…
+     --font-display     → font-display
+     --animate-drift    → animate-drift
+*/
+@theme {
+  /* palette */
+  --color-p1: #5a17a8;
+  --color-p2: #8a3dff;
+  --color-p3: #c39bff;
+  --color-hot: #ff3df2;
+  --color-acid: #d4ff3a;
+  --color-sky: #5ce6ff;
+  --color-tomato: #ff5b3a;
+  --color-ink: #15082b;
+  --color-paper: #faf5ff;
+
+  /* fonts */
+  --font-display: "Bungee", system-ui, sans-serif;
+  --font-shade: "Bungee Shade", system-ui, sans-serif;
+  --font-sans: "Manrope", system-ui, sans-serif;
+
+  /* animations */
+  --animate-drift: drift 14s ease-in-out infinite;
+  --animate-bob: bob 5s ease-in-out infinite;
+  --animate-roll: roll 30s linear infinite;
+  --animate-roll-reverse: roll 38s linear infinite reverse;
+  --animate-pulse-dot: pulseDot 1.5s infinite;
+  --animate-pulse-green: pulseGreen 2.5s ease-in-out infinite;
+}
+
+/* ───────── Base ─────────
+   Body bg is a gradient stack pinned with background-attachment:fixed so the
+   purple → magenta wash doesn't scroll with content. The dot-grid is a
+   pseudo-element so it sits over the bg but under everything else. */
+@layer base {
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    background:
+      radial-gradient(1000px 700px at 20% 0%, rgba(255, 61, 242, .25), transparent 60%),
+      radial-gradient(900px 700px at 90% 30%, rgba(92, 230, 255, .22), transparent 55%),
+      radial-gradient(1100px 800px at 40% 100%, rgba(212, 255, 58, .16), transparent 60%),
+      linear-gradient(180deg, #2a0d52 0%, #5a17a8 50%, #2a0d52 100%);
+    background-attachment: fixed;
+    color: var(--color-paper);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--color-acid); color: var(--color-ink); }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image: radial-gradient(rgba(255, 255, 255, .05) 1px, transparent 1.5px);
+    background-size: 22px 22px;
+    mask: radial-gradient(ellipse 100% 100% at 50% 30%, black, transparent 95%);
+  }
+
+  main, header, footer { position: relative; z-index: 2; }
+}
+
+/* ───────── Keyframes ─────────
+   --r is a per-instance rotation seed each floating sticker sets inline,
+   so they all drift to the same rhythm but from different angles. */
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0) rotate(var(--r, 0deg)); }
+  50%      { transform: translate(15px, -20px) rotate(calc(var(--r, 0deg) + 8deg)); }
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+  50%      { transform: translateY(-14px) rotate(calc(var(--r, 0deg) + 4deg)); }
+}
+
+@keyframes pulseDot {
+  50% { opacity: .3; }
+}
+
+@keyframes pulseGreen {
+  0%, 100% { transform: rotate(6deg) scale(1); }
+  50%      { transform: rotate(6deg) scale(1.05); }
+}
+
+@keyframes roll {
+  to { transform: translateX(-50%); }
+}
+
+/* ───────── Emote img helper ─────────
+   Every <img class="em"> shows an emote/sticker. They share contain + tiny
+   inner padding so the image never touches the colored tile edge. */
+.em {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  padding: 6%;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+/* ───────── Hero title ─────────
+   The hero h1 needs really fluid sizing (64px → 180px) and tight leading;
+   doing it via @apply gets messy because clamp() isn't a Tailwind size. */
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(64px, 11vw, 180px);
+  line-height: .88;
+  letter-spacing: -0.005em;
+  max-width: 12ch;
+  text-wrap: balance;
+  margin: 22px auto 24px;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(46px, 8vw, 110px);
+  line-height: .92;
+  letter-spacing: -0.005em;
+  margin: 0 0 18px;
+  text-wrap: balance;
+}
+
+.final-title {
+  font-family: var(--font-display);
+  font-size: clamp(56px, 11vw, 160px);
+  line-height: .88;
+  margin: 0 0 24px;
+  text-wrap: balance;
+}
+
+/* ───────── Sticker wall tile rotations ─────────
+   Tiles in the wall sit at small rotations to feel hand-placed; on hover
+   they pop forward and rotate to 0. Doing this via nth-child is cleaner
+   than tagging each tile with a rotation utility. */
+.sticker-tile:nth-child(3n+1) { transform: rotate(-2deg); }
+.sticker-tile:nth-child(3n+2) { transform: rotate(1deg); }
+.sticker-tile:nth-child(3n)   { transform: rotate(-1deg); }
+.sticker-tile {
+  transition: transform .18s cubic-bezier(.34, 1.56, .64, 1), box-shadow .2s;
+}
+.sticker-tile:hover {
+  transform: translateY(-8px) rotate(0deg) scale(1.06);
+  box-shadow: 0 24px 50px rgba(255, 61, 242, .4);
+  z-index: 5;
+}
+.sticker-tile .name { opacity: 0; transition: opacity .15s; }
+.sticker-tile .plus { opacity: 0; transition: opacity .15s, transform .15s; }
+.sticker-tile:hover .name,
+.sticker-tile:hover .plus { opacity: 1; }

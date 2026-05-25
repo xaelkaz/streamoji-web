@@ -1,0 +1,61 @@
+---
+// Big closing call-to-action. Mirrors the Google Play badge from the hero,
+// scaled up 15%, so the user has a second clear funnel to the download.
+---
+<section class="final" id="download">
+  <h2 class="final-title">
+    <span class="font-shade text-hot">DOWNLOAD.</span><br />
+    SEND. <span class="text-acid">DESTROY.</span>
+  </h2>
+  <p class="text-[18px] max-w-[540px] mx-auto mb-8 text-white/85 leading-[1.5]">
+    Free. Android. No login. Updated weekly with whatever your timeline is laughing at this week.
+  </p>
+
+  <div class="flex justify-center">
+    <a class="gp-badge" href="https://play.google.com/store/apps/details?id=me.xbernikov.emotetv" target="_blank" rel="noopener" style="transform: scale(1.15);">
+      <svg viewBox="0 0 512 512" class="w-7 h-7">
+        <path
+          d="M325.3 234.3 104.4 13.4l296.5 162.7-75.6 58.2zM72 0c-9 4.4-15 13.3-15 24.8v462.4c0 11.5 6 20.4 15 24.8L312.6 256 72 0zm351.8 174.7-65.6 36-67.5 51 67.5 51 65.6 36c19.2-15 19.2-45.1 0-58.4l-65.6-36 65.6-36c19.2-13.3 19.2-43.4 0-58.4zM104.4 498.6l296.5-162.7-75.6-58.2-220.9 220.9z"
+          fill="#fff"
+        />
+      </svg>
+      <div>
+        <div class="text-[10px] opacity-80 tracking-[.14em] uppercase">Get it on</div>
+        <div class="font-display text-[20px] leading-none mt-0.5">Google Play</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<style>
+  .final {
+    margin: 100px 28px;
+    max-width: 1320px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    position: relative;
+    padding: 40px 0 80px;
+  }
+
+  /* Duplicated from Hero's <style> — kept here scoped to FinalCTA so the
+     component is self-contained. If you ever extract a shared <PlayBadge>
+     component, this becomes its sole owner. */
+  .gp-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 22px 14px 18px;
+    background: black;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, .15);
+    border-radius: 16px;
+    text-decoration: none;
+    box-shadow: 0 12px 40px rgba(255, 61, 242, .35), 0 0 0 4px rgba(255, 255, 255, .04);
+    transition: transform .15s, box-shadow .2s;
+  }
+  .gp-badge:hover {
+    transform: translateY(-2px) scale(1.17) !important;
+    box-shadow: 0 16px 50px rgba(255, 61, 242, .55);
+  }
+</style>

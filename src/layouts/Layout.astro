@@ -1,0 +1,107 @@
+---
+// Site-wide HTML shell. Anything inside <slot /> is the page body. Centralising
+// fonts/meta here means individual pages don't repeat the boilerplate.
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Optional override for <meta name="keywords">. Google ignores this tag,
+   *  but Bing and DuckDuckGo still use it as a weak signal. */
+  keywords?: string;
+}
+
+// Defaults are tuned for search: every important keyword (twitch, 7tv, emotes,
+// whatsapp, stickers, convert, android, free) appears at least once between
+// title and description. Title is under 60 chars so Google doesn't truncate.
+const {
+  title = 'Streamoji — Convert Twitch & 7TV Emotes to WhatsApp Stickers',
+  description = 'Free Android app to convert Twitch and 7TV emotes — KEKW, peepoComfy, monkaW, catJam — into real WhatsApp sticker packs. No editing, no bots, no patience required.',
+  keywords = 'twitch stickers, 7tv stickers, whatsapp stickers, twitch emotes whatsapp, convert emotes, kekw sticker, peepoComfy sticker, monkaW sticker, sticker pack maker, twitch emote app, 7tv whatsapp',
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL('/assets/og-image.png', Astro.site).href;
+const playStoreUrl = 'https://play.google.com/store/apps/details?id=me.xbernikov.emotetv';
+const appIcon = new URL('/icon-512.png', Astro.site).href;
+
+// schema.org SoftwareApplication — eligible for the "app card" rich result
+// in Google (icon + price + platform + rating if/when you have reviews).
+// aggregateRating intentionally omitted: with only ~10 installs, claiming a
+// rating risks a manual penalty for misleading structured data. Add it back
+// once you cross ~50 real Play Store ratings.
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Streamoji',
+  alternateName: 'Streamoji - Twitch & 7TV Stickers for WhatsApp',
+  operatingSystem: 'ANDROID',
+  applicationCategory: 'EntertainmentApplication',
+  description,
+  url: Astro.site?.href ?? 'https://streamoji.stream',
+  downloadUrl: playStoreUrl,
+  installUrl: playStoreUrl,
+  image: appIcon,
+  softwareVersion: '1.5.0.0',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  author: {
+    '@type': 'Person',
+    name: 'xbernikov',
+  },
+};
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="generator" content={Astro.generator} />
+
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="keywords" content={keywords} />
+  <link rel="canonical" href={canonical} />
+
+  <!-- schema.org SoftwareApplication. Google reads this and may show your app
+       as a rich result (icon + price + platform) for brand searches. -->
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <!-- Open Graph / Twitter — drive the link previews in WhatsApp / Discord / X.
+       Create /public/assets/og-image.png at 1200×630 before going live. -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={ogImage} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImage} />
+
+  <meta name="theme-color" content="#2a0d52" />
+
+  <!-- Multi-size favicon set. Browsers pick the best fit: tab strips usually
+       grab the 32px, retina taskbars the 512px, iOS home-screen the
+       apple-touch-icon (180px, no transparency, square corners). -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+  <!-- Fonts: Bungee for headlines, Bungee Shade for the shade-stroke accent,
+       Manrope for body. preconnect speeds up the first font byte. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Bungee&family=Bungee+Shade&family=Manrope:wght@400;500;600;700;800&display=swap"
+  />
+</head>
+<body>
+  <slot />
+</body>
+</html>

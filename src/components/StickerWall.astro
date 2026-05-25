@@ -1,0 +1,96 @@
+---
+import { stickers, variantBg } from '../data/stickers';
+---
+<section class="block" id="stickers">
+  <div class="max-w-[1320px] mx-auto px-7 py-[100px]">
+    <div class="mb-[50px] max-w-[800px] text-center mx-auto">
+      <span class="head-eye">◆ The arsenal</span>
+      <h2 class="section-title">
+        Every <span class="text-acid">EMOTE</span><br />
+        your chat <span class="font-shade text-hot">USES.</span>
+      </h2>
+      <p class="text-[18px] leading-[1.5] max-w-[600px] mx-auto text-white/80">
+        Static and animated. Pepe variants, cat reactions, FANTASBOY, the weird ones, the iconic ones. Hover any one to add to a pack.
+      </p>
+    </div>
+
+    <div class="wall">
+      {stickers.map(s => (
+        <div class={`sticker-tile ${variantBg[s.t]} text-ink`}>
+          <img class="em" src={`/assets/emotes/${s.f}.avif`} alt={s.n} loading="lazy" />
+          <div class="name">{s.n}</div>
+          <div class="plus">+</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .head-eye {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, .08);
+    border: 1px solid rgba(255, 255, 255, .18);
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    margin-bottom: 18px;
+    color: var(--color-acid);
+  }
+
+  .wall {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 900px) { .wall { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 560px) { .wall { grid-template-columns: repeat(3, 1fr); gap: 10px; } }
+
+  .sticker-tile {
+    aspect-ratio: 1;
+    border-radius: 20px;
+    display: grid;
+    place-items: center;
+    font-size: 58px;
+    position: relative;
+    box-shadow:
+      0 14px 30px rgba(0, 0, 0, .25),
+      inset 0 0 0 1px rgba(255, 255, 255, .4);
+    cursor: pointer;
+  }
+  @media (max-width: 560px) {
+    .sticker-tile { font-size: 42px; border-radius: 16px; }
+  }
+
+  .sticker-tile .name {
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-ink);
+    color: white;
+    font-family: var(--font-display);
+    font-size: 10px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+  .sticker-tile .plus {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--color-p1);
+    color: white;
+    font-size: 16px;
+    line-height: 1;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, .3);
+  }
+</style>

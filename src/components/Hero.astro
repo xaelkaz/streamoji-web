@@ -1,0 +1,238 @@
+---
+// Hero: badge → headline → CTAs → "stage" with phone mockup and exploding
+// stickers floating around it. The phone screen is the real app screenshot.
+// The exploding stickers (`.ex`) are absolute-positioned, each with its own
+// rotation seed (--r) and animation-delay so they bob out of sync.
+const explosions = [
+  { f: 'peepoComfy',  cls: 'top-[5%] left-[8%] w-[130px] h-[130px] text-[64px]', bg: '#fde9c4', r: -10, delay: '0s',    label: 'peepoComfy' },
+  { f: 'PartyKirby',  cls: 'top-0 right-[12%] w-[140px] h-[140px] text-[70px]',   bg: '#c9e8d4', r:  12, delay: '-1.2s', label: 'PartyKirby' },
+  { f: 'KEKW',        cls: 'top-[38%] left-0 w-[120px] h-[120px] text-[58px] hidden md:grid', bg: '#f6c8d8', r:  -6, delay: '-2.5s', label: 'KEKW' },
+  { f: 'monkaChrist', cls: 'top-[40%] right-0 w-[130px] h-[130px] text-[64px] hidden md:grid', bg: '#d6c8f6', r:  14, delay: '-3.8s', label: 'monkaChrist' },
+  { f: 'classic',     cls: 'bottom-[14%] left-[6%] w-[110px] h-[110px] text-[50px]',  bg: '#fff2b3', r:  10, delay: '-1.8s', label: 'classic' },
+  { f: 'sigma',       cls: 'bottom-[8%] right-[8%] w-[130px] h-[130px] text-[64px]', bg: '#ffd6c2', r: -12, delay: '-3s',   label: 'sigma' },
+  { f: 'NOWAYING',    cls: 'bottom-[42%] left-[16%] w-[90px] h-[90px] text-[42px] hidden md:grid',  bg: '#c8e6ff', r:  18, delay: '-4.5s', label: 'NOWAYING' },
+];
+---
+<section class="hero">
+  <div class="max-w-[1320px] mx-auto px-7 pt-[50px] pb-[60px] text-center relative">
+    <span class="eyebrow">
+      <span class="eye-dot"></span>
+      Built for stream-chat enjoyers · v1.5.0.0
+    </span>
+
+    <h1 class="hero-title">
+      <span class="text-white">Make your</span><br />
+      <span class="font-shade text-acid tracking-[0.02em]">Whatsapp</span><br />
+      <span class="inline-block -rotate-3 text-hot drop-shadow-[0_0_24px_rgba(255,61,242,0.6)]">go</span>
+      <span class="font-shade text-acid tracking-[0.02em]">hard.</span>
+    </h1>
+
+    <p class="max-w-[620px] mx-auto mb-[30px] text-[19px] leading-[1.5] text-white/85">
+      Streamoji turns 7TV and Twitch emotes — <b class="bg-acid text-ink px-1.5 py-px rounded">KEKW, peepoComfy, monkaW, catJam</b> — into WhatsApp sticker packs. <b class="text-white">No image editing, no third-party bots, no manual file conversion.</b>
+    </p>
+
+    <div class="inline-flex gap-3.5 items-center flex-wrap justify-center">
+      <a class="gp-badge" href="https://play.google.com/store/apps/details?id=me.xbernikov.emotetv" target="_blank" rel="noopener">
+        <svg viewBox="0 0 512 512" class="w-7 h-7">
+          <path
+            d="M325.3 234.3 104.4 13.4l296.5 162.7-75.6 58.2zM72 0c-9 4.4-15 13.3-15 24.8v462.4c0 11.5 6 20.4 15 24.8L312.6 256 72 0zm351.8 174.7-65.6 36-67.5 51 67.5 51 65.6 36c19.2-15 19.2-45.1 0-58.4l-65.6-36 65.6-36c19.2-13.3 19.2-43.4 0-58.4zM104.4 498.6l296.5-162.7-75.6-58.2-220.9 220.9z"
+            fill="#fff"
+          />
+        </svg>
+        <div>
+          <div class="text-[10px] opacity-80 tracking-[.14em] uppercase">Get it on</div>
+          <div class="font-display text-[20px] leading-none mt-0.5">Google Play</div>
+        </div>
+      </a>
+
+      <a class="ghost-btn" href="#how">
+        Watch it work
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="6 4 20 12 6 20 6 4" />
+        </svg>
+      </a>
+    </div>
+
+    <!-- Stage: phone mockup with the app screenshot, surrounded by bobbing
+         emote stickers. Container is relative so the .ex absolute children
+         position against this box. -->
+    <div class="stage">
+      {explosions.map(e => (
+        <div
+          class={`ex ${e.cls}`}
+          style={`background: ${e.bg}; --r: ${e.r}deg; animation-delay: ${e.delay};`}
+        >
+          <img class="em" src={`/assets/emotes/${e.f}.avif`} alt={e.label} loading="lazy" />
+          <div class="ex-lbl">{e.label}</div>
+        </div>
+      ))}
+
+      <div class="phone">
+        <div class="phone-screen">
+          <img src="/assets/app-screen.png" alt="Streamoji app" class="w-full h-full object-cover block" />
+        </div>
+      </div>
+
+      <div class="wa-pop">
+        <svg viewBox="0 0 24 24" fill="currentColor" class="w-[18px] h-[18px]">
+          <path d="M12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.3 5L2 22l5.2-1.3c1.4.8 3 1.3 4.8 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2zm5.2 14.3c-.2.6-1.2 1.2-1.7 1.2-.5.1-1.1.1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.7-4.2-.1-.1-1.1-1.5-1.1-2.9 0-1.3.7-2 1-2.3.3-.3.6-.3.8-.3h.6c.2 0 .5-.1.7.5l1 2.4c.1.2.1.4 0 .6l-.4.5c-.1.1-.3.3-.1.6.2.3.7 1.2 1.6 2 1.1 1 2 1.3 2.3 1.4.3.1.5.1.7-.1l.8-1c.2-.3.4-.2.6-.1l1.9.9c.2.1.4.2.4.3 0 .2 0 .8-.2 1.2z"/>
+        </svg>
+        <div>
+          <div>Pack added ✓</div>
+          <div class="text-[10px] opacity-90 font-medium">cope arsenal · 6 stickers</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Eyebrow chip with pulsing dot. Tight enough that doing it in Tailwind
+     would need ~8 classes; one local block reads better. */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, .08);
+    border: 1px solid rgba(255, 255, 255, .18);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: white;
+  }
+  .eye-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-acid);
+    box-shadow: 0 0 12px var(--color-acid);
+    animation: pulseDot 1.5s infinite;
+  }
+
+  /* Google Play CTA: black pill with magenta glow on hover. */
+  .gp-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 22px 14px 18px;
+    background: black;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, .15);
+    border-radius: 16px;
+    text-decoration: none;
+    box-shadow: 0 12px 40px rgba(255, 61, 242, .35), 0 0 0 4px rgba(255, 255, 255, .04);
+    transition: transform .15s, box-shadow .2s;
+  }
+  .gp-badge:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 16px 50px rgba(255, 61, 242, .55);
+  }
+
+  .ghost-btn {
+    padding: 14px 22px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, .1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, .18);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background .15s;
+  }
+  .ghost-btn:hover { background: rgba(255, 255, 255, .2); }
+
+  /* Stage: phone mockup centred, emotes float absolutely around it. The
+     phone gets a chunky multi-layer box-shadow for the bezel + glow effect. */
+  .stage {
+    margin: 60px auto 0;
+    position: relative;
+    width: 100%;
+    max-width: 1100px;
+    height: 600px;
+    display: grid;
+    place-items: center;
+  }
+  .phone {
+    position: relative;
+    width: 300px;
+    height: 600px;
+    background: #050309;
+    border-radius: 46px;
+    border: 1px solid rgba(255, 255, 255, .1);
+    padding: 14px;
+    z-index: 5;
+    box-shadow:
+      0 0 0 8px #0a0612,
+      0 0 0 9px rgba(255, 255, 255, .15),
+      0 40px 120px rgba(255, 61, 242, .4),
+      0 0 200px rgba(138, 61, 255, .4);
+  }
+  .phone-screen {
+    width: 100%;
+    height: 100%;
+    border-radius: 34px;
+    background: #f5f3fb;
+    overflow: hidden;
+  }
+
+  .ex {
+    position: absolute;
+    border-radius: 22px;
+    display: grid;
+    place-items: center;
+    box-shadow:
+      0 18px 50px rgba(0, 0, 0, .5),
+      inset 0 0 0 1px rgba(255, 255, 255, .1);
+    animation: bob 5s ease-in-out infinite;
+  }
+  .ex-lbl {
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-ink);
+    color: white;
+    font-family: var(--font-display);
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+    border: 1px solid rgba(255, 255, 255, .15);
+  }
+
+  .wa-pop {
+    position: absolute;
+    z-index: 6;
+    right: 18%;
+    bottom: 8%;
+    background: #25D366;
+    color: white;
+    border-radius: 18px;
+    padding: 14px 16px;
+    font-weight: 700;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transform: rotate(6deg);
+    box-shadow: 0 16px 40px rgba(37, 211, 102, .5);
+    animation: pulseGreen 2.5s ease-in-out infinite;
+  }
+
+  @media (max-width: 900px) {
+    .stage { height: 540px; }
+    .phone { width: 270px; height: 540px; }
+    .wa-pop { right: 10%; bottom: 4%; }
+  }
+  @media (max-width: 560px) {
+    .stage { height: 460px; }
+    .phone { width: 230px; height: 460px; padding: 10px; }
+    .phone-screen { border-radius: 30px; }
+  }
+</style>

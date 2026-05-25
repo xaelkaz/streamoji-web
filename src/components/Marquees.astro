@@ -1,0 +1,51 @@
+---
+// Two scrolling text bars. The marquee loop relies on the content being
+// duplicated so translateX(-50%) lands exactly at the start of the second
+// copy — that's why each <span> list is rendered twice via {row.concat(row)}.
+const row1 = ['KEKW', 'peepoComfy', 'PartyKirby', 'classic', 'sigma', 'monkaChrist', 'NOWAYING', 'PLEASE', 'vibePls'];
+const row2 = ['HACKERMANS', 'SUSSY', 'LOL', 'RIPBOZO', 'PepeClown', 'PepeHands', 'Nerd', 'sadKEK', 'crunch'];
+---
+<div class="marquees">
+  <div class="marquee-row">
+    {[...row1, ...row1].map(name => (
+      <span><span>{name}</span> <span class="ic">✦</span></span>
+    ))}
+  </div>
+  <div class="marquee-row marquee-row--reverse">
+    {[...row2, ...row2].map(name => (
+      <span><span>{name}</span> <span>☆</span></span>
+    ))}
+  </div>
+</div>
+
+<style>
+  .marquees {
+    overflow: hidden;
+    padding: 18px 0;
+    background: rgba(0, 0, 0, .25);
+    border-top: 1px solid rgba(255, 255, 255, .08);
+    border-bottom: 1px solid rgba(255, 255, 255, .08);
+  }
+  .marquee-row {
+    display: flex;
+    gap: 50px;
+    white-space: nowrap;
+    font-family: var(--font-display);
+    font-size: 28px;
+    animation: roll 30s linear infinite;
+    width: max-content;
+  }
+  .marquee-row--reverse {
+    animation: roll 38s linear infinite reverse;
+    margin-top: 16px;
+    font-family: var(--font-shade);
+    color: var(--color-acid);
+  }
+  .marquee-row > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+    color: white;
+  }
+  .marquee-row .ic { color: var(--color-hot); }
+</style>

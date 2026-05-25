@@ -1,0 +1,30 @@
+---
+const year = new Date().getFullYear();
+---
+<footer class="foot">
+  <div class="max-w-[1320px] mx-auto flex justify-between gap-6 flex-wrap items-center">
+    <div>© Streamoji {year} · made for stream gremlins · not affiliated with 7TV or WhatsApp</div>
+    <div>
+      <a href="#stickers">Stickers</a>
+      <a href="#how">How</a>
+      <a href="#download">Download</a>
+      <a href="/privacy">Privacy</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .foot {
+    padding: 40px 28px 24px;
+    border-top: 1px solid rgba(255, 255, 255, .08);
+    background: rgba(0, 0, 0, .35);
+    color: rgba(255, 255, 255, .7);
+    font-size: 13px;
+  }
+  .foot a {
+    color: rgba(255, 255, 255, .8);
+    text-decoration: none;
+    margin-left: 18px;
+  }
+  .foot a:hover { color: var(--color-acid); }
+</style>

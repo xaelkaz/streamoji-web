@@ -1,0 +1,25 @@
+---
+// Six drifting background emotes pinned to viewport corners. They sit behind
+// the dot-grid overlay (which is body::before, z-1) but in front of the
+// gradient bg, so the page has depth without distracting from foreground.
+const bgs = [
+  { f: 'peepoComfy',  cls: 'top-[8%] left-[4%]',    r: -10, delay: '0s'  },
+  { f: 'PartyKirby',  cls: 'top-[14%] right-[6%]',  r:  14, delay: '-2s' },
+  { f: 'KEKW',        cls: 'top-[38%] left-[2%]',   r:   8, delay: '-4s' },
+  { f: 'monkaChrist', cls: 'top-[52%] right-[3%]',  r: -16, delay: '-6s' },
+  { f: 'sigma',       cls: 'top-[72%] left-[8%]',   r:   6, delay: '-1s' },
+  { f: 'vibePls',     cls: 'top-[85%] right-[10%]', r:  -8, delay: '-3s' },
+];
+
+const tints = ['#fde9c4', '#c9e8d4', '#f6c8d8', '#d6c8f6', '#fff2b3', '#ffd6c2'];
+---
+<div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+  {bgs.map((b, i) => (
+    <div
+      class={`absolute w-20 h-20 rounded-[18px] grid place-items-center opacity-45 ${b.cls}`}
+      style={`background: ${tints[i]}; box-shadow: 0 14px 40px rgba(0,0,0,.4); filter: blur(.5px); animation: drift 14s ease-in-out infinite; animation-delay: ${b.delay}; --r: ${b.r}deg;`}
+    >
+      <img class="em" src={`/assets/emotes/${b.f}.avif`} alt={b.f} loading="lazy" />
+    </div>
+  ))}
+</div>

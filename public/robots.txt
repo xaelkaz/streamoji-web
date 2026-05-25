@@ -1,0 +1,6 @@
+# robots.txt — allow all crawlers, point to sitemap.
+# The sitemap is generated at build by @astrojs/sitemap (see astro.config.mjs).
+User-agent: *
+Allow: /
+
+Sitemap: https://streamoji.stream/sitemap-index.xml
